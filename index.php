@@ -1,19 +1,52 @@
 <?php
 
 /**
- * - Task 6 - 
- * There is also an interface called Shippable that is currently unused.
+ * - Task 7 - 
+ * Create a brand new class called Order that has the following properties:
  * 
- * Implement the interface in the PhysicalProduct class, and add the required method.
+ * - customerEmail (string)
+ * - products (array)
  * 
- * The idea behind this method is that it returns the PhysicalProduct data for another (non existent) object
- * that is in charge of arranging delivery of the product.
- * 
- * The method should return an assoc array with the following keys/values:
- * 1) A key of 'name' containing the name of the product
- * 2) A key called 'description' containing the description of the product
- * 3) A key called 'shippingCost' containing the shipping cost of the product 
+ * And the following methods:
+ * - constructor - this should only accept a customerEmail, not products.
+ * - addProduct - Adds any object that inherits from BaseProduct into the products property
+ * - processOrder - This method loops through the products property array and calls either the getEmailContent()/getShippingData() methods depending
+ * on whether or not the product implements Shippable or Emailable (look up the 'instanceof' operator).
+ * Process order should echo out a unordered list for each item displaying the data returned by getEmailContent()/getShippingData()
  */
+
+class Order
+{
+    protected string $customerEmail;
+    protected array $products = [];
+
+    public function __construct(string $customerEmail)
+    {
+        $this->customerEmail = $customerEmail;
+    }
+
+    public function addProduct(BaseProduct $product): void
+    {
+        $this->products[] = $product;
+    }
+
+    public function processOrder(): void
+    {
+        foreach ($this->products as $product) {
+            echo '<ul>';
+            if ($product instanceof Shippable) {
+                $data = $product->getShippingData();
+            } elseif ($product instanceof Emailable) {
+                $data = $product->getEmailContent();
+            }
+
+            foreach($data as $key => $value) {
+                echo "<li>$key: $value</li>";
+            }
+            echo '</ul>';
+        }
+    }
+}
 
 abstract class BaseProduct
 {
@@ -120,3 +153,11 @@ interface Shippable
     public function getShippingData(): array;
 }
 
+$virtualProd = new VirtualProduct('Thing', 4.99, 'Stuff and things', 'thing', 'pdf', 1);
+$physicalProd = new PhysicalProduct('Another thing', 120.00, 'Loads of things', 259);
+
+$order = new Order('john@john.com');
+$order->addProduct($virtualProd);
+$order->addProduct($physicalProd);
+
+$order->processOrder();
