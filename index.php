@@ -1,11 +1,20 @@
 <?php
 
 /**
- * - Task 3 - 
- * The VirtualProduct is missing it's constructor entirely, please add one in.
+ * - Task 4 - 
+ * You'll notice that the BaseProduct has an abstract method called calculateShippingCost that is currently commented out. Uncomment the abstract
+ * method and implement it in both the PhysicalProduct and the VirtualProduct.
  * 
- * As part of this, please add a check to make sure the fileSize is above 0, also throwing an exception if it's not. The exception should have the message
- * 'Error: File size must be above 0'
+ * For the PhysicalProduct, the shipping cost is calculated like so:
+ * 
+ * If the weight of the product is above or equal to 10, the shipping cost is 10.5
+ * If the weight of the product is less than 10, the shipping cost is 2.95
+ * However, if the price of the product is above 100, then the shipping cost is 0
+ * 
+ * For the VitualProduct, the shipping cost is calculated like so:
+ * 
+ * If the fileSize is greater than or equal to 100, the shipping cost is 0.5
+ * Otherwise the shipping cost of a VirtualProduct is 0
  */
 
 abstract class BaseProduct
@@ -25,7 +34,7 @@ abstract class BaseProduct
         $this->description = $description;
     }
 
-    // public abstract function calculateShippingCost(): float;
+    public abstract function calculateShippingCost(): float;
 
 }
 
@@ -41,6 +50,19 @@ class PhysicalProduct extends BaseProduct
 
         $this->weight = $weight;
         parent::__construct($name, $price, $description); // Calling the constructor of the parent
+    }
+
+    public function calculateShippingCost(): float
+    {
+        if ($this->price > 100) {
+            return 0.0;
+        }
+
+        if ($this->weight >= 10) {
+            return 10.5;
+        }
+
+        return 2.95;
     }
 }
 
@@ -60,6 +82,15 @@ class VirtualProduct extends BaseProduct
         $this->fileType = $fileType;
         $this->fileSize = $fileSize;
         parent::__construct($name, $price, $description); 
+    }
+
+    public function calculateShippingCost(): float
+    {
+        if ($this->fileSize >= 100) {
+            return 0.5;
+        }
+
+        return 0.0;
     }
 }
 
