@@ -1,5 +1,7 @@
 <?php
 
+namespace Products;
+
 abstract class BaseProduct
 {
     protected string $name;
@@ -9,7 +11,7 @@ abstract class BaseProduct
     public function __construct(string $name, float $price, string $description)
     {
         if ($price < 0) {
-            throw new Exception('Error: Price must be above 0');
+            throw new \Exception('Error: Price must be above 0');
         }
 
         $this->name = $name;

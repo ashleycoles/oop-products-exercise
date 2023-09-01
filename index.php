@@ -5,6 +5,10 @@
  * There is a lot of code in this file now, time to tidy up and move each class/interface into their own file
  */
 
+use Order\Order;
+use Products\PhysicalProduct;
+use Products\VirtualProduct;
+
 require_once 'src/Products/VirtualProduct.php';
 require_once 'src/Products/PhysicalProduct.php';
 require_once 'src/Order/Order.php';

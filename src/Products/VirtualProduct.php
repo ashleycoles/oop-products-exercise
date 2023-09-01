@@ -1,5 +1,9 @@
 <?php
 
+namespace Products;
+
+use Interfaces\Emailable;
+
 require_once 'src/Interfaces/Emailable.php';
 require_once 'src/Products/BaseProduct.php';
 
@@ -12,7 +16,7 @@ class VirtualProduct extends BaseProduct implements Emailable
     public function __construct(string $name, float $price, string $description, string $fileName, string $fileType, float $fileSize)
     {
         if ($fileSize < 0) {
-            throw new Exception('Error: File size must be above 0');
+            throw new \Exception('Error: File size must be above 0');
         }
         
         $this->fileName = $fileName;

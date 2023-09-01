@@ -1,5 +1,9 @@
 <?php
 
+namespace Products;
+
+use Interfaces\Shippable;
+
 require_once 'src/Interfaces/Shippable.php';
 require_once 'src/Products/BaseProduct.php';
 
@@ -10,7 +14,7 @@ class PhysicalProduct extends BaseProduct implements Shippable
     public function __construct(string $name, float $price, string $description, float $weight = 0)
     {
         if ($weight < 0) {
-            throw new Exception('Error: Weight must be above 0');
+            throw new \Exception('Error: Weight must be above 0');
         }
 
         $this->weight = $weight;

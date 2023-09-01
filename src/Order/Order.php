@@ -1,5 +1,11 @@
 <?php
 
+namespace Order;
+
+use Interfaces\Emailable;
+use Interfaces\Shippable;
+use Products\BaseProduct;
+
 require_once 'src/Products/BaseProduct.php';
 require_once 'src/Interfaces/Emailable.php';
 require_once 'src/Interfaces/Shippable.php';
