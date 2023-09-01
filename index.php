@@ -1,18 +1,18 @@
 <?php
 
 /**
- * - Task 5 - 
- * You'll notice there is an interface called Emailable that is currently not being used.
+ * - Task 6 - 
+ * There is also an interface called Shippable that is currently unused.
  * 
- * Implement this interface in the VirtualProduct class, and add the required method.
+ * Implement the interface in the PhysicalProduct class, and add the required method.
  * 
- * The idea behind this method is that it returns the VirtualProduct data needed for another (non existent) object
- * to send the product to the customer via email
+ * The idea behind this method is that it returns the PhysicalProduct data for another (non existent) object
+ * that is in charge of arranging delivery of the product.
  * 
  * The method should return an assoc array with the following keys/values:
  * 1) A key of 'name' containing the name of the product
  * 2) A key called 'description' containing the description of the product
- * 3) A key called 'file' containing the fileName + the fileType (for example test.pdf) 
+ * 3) A key called 'shippingCost' containing the shipping cost of the product 
  */
 
 abstract class BaseProduct
@@ -36,7 +36,7 @@ abstract class BaseProduct
 
 }
 
-class PhysicalProduct extends BaseProduct
+class PhysicalProduct extends BaseProduct implements Shippable
 {
     protected float $weight;
 
@@ -61,6 +61,15 @@ class PhysicalProduct extends BaseProduct
         }
 
         return 2.95;
+    }
+
+    public function getShippingData(): array
+    {
+        return [
+            'name' => $this->name,
+            'description' => $this->description,
+            'shippingCost' => $this->calculateShippingCost()
+        ];
     }
 }
 
