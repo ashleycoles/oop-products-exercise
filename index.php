@@ -1,10 +1,11 @@
 <?php
 
 /**
-
- * - Task 2 -
- * The construct method of the PhysicalProduct class should have a basic check on the weight before it gets saved to the weight property. 
- * If the weight is less than 0, throw an exception with the message 'Error: Weight must be above 0'
+ * - Task 3 - 
+ * The VirtualProduct is missing it's constructor entirely, please add one in.
+ * 
+ * As part of this, please add a check to make sure the fileSize is above 0, also throwing an exception if it's not. The exception should have the message
+ * 'Error: File size must be above 0'
  */
 
 abstract class BaseProduct
@@ -32,7 +33,7 @@ class PhysicalProduct extends BaseProduct
 {
     protected float $weight;
 
-    public function __construct(string $name, float $price, string $description, $weight = 0)
+    public function __construct(string $name, float $price, string $description, float $weight = 0)
     {
         if ($weight < 0) {
             throw new Exception('Error: Weight must be above 0');
@@ -48,6 +49,18 @@ class VirtualProduct extends BaseProduct
     protected string $fileName;
     protected string $fileType;
     protected float $fileSize;
+
+    public function __construct(string $name, float $price, string $description, string $fileName, string $fileType, float $fileSize)
+    {
+        if ($fileSize < 0) {
+            throw new Exception('Error: File size must be above 0');
+        }
+        
+        $this->fileName = $fileName;
+        $this->fileType = $fileType;
+        $this->fileSize = $fileSize;
+        parent::__construct($name, $price, $description); 
+    }
 }
 
 interface Emailable
