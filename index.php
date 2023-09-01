@@ -1,20 +1,18 @@
 <?php
 
 /**
- * - Task 4 - 
- * You'll notice that the BaseProduct has an abstract method called calculateShippingCost that is currently commented out. Uncomment the abstract
- * method and implement it in both the PhysicalProduct and the VirtualProduct.
+ * - Task 5 - 
+ * You'll notice there is an interface called Emailable that is currently not being used.
  * 
- * For the PhysicalProduct, the shipping cost is calculated like so:
+ * Implement this interface in the VirtualProduct class, and add the required method.
  * 
- * If the weight of the product is above or equal to 10, the shipping cost is 10.5
- * If the weight of the product is less than 10, the shipping cost is 2.95
- * However, if the price of the product is above 100, then the shipping cost is 0
+ * The idea behind this method is that it returns the VirtualProduct data needed for another (non existent) object
+ * to send the product to the customer via email
  * 
- * For the VitualProduct, the shipping cost is calculated like so:
- * 
- * If the fileSize is greater than or equal to 100, the shipping cost is 0.5
- * Otherwise the shipping cost of a VirtualProduct is 0
+ * The method should return an assoc array with the following keys/values:
+ * 1) A key of 'name' containing the name of the product
+ * 2) A key called 'description' containing the description of the product
+ * 3) A key called 'file' containing the fileName + the fileType (for example test.pdf) 
  */
 
 abstract class BaseProduct
@@ -66,7 +64,7 @@ class PhysicalProduct extends BaseProduct
     }
 }
 
-class VirtualProduct extends BaseProduct
+class VirtualProduct extends BaseProduct implements Emailable
 {
     protected string $fileName;
     protected string $fileType;
@@ -91,6 +89,15 @@ class VirtualProduct extends BaseProduct
         }
 
         return 0.0;
+    }
+
+    public function getEmailContent(): array
+    {
+        return [
+            'name' => $this->name,
+            'description' => $this->description,
+            'file' => $this->fileName . '.' . $this->fileType
+        ];
     }
 }
 
